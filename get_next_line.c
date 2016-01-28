@@ -6,7 +6,7 @@
 /*   By: aperraul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/22 15:26:45 by aperraul          #+#    #+#             */
-/*   Updated: 2016/01/28 14:33:17 by aperraul         ###   ########.fr       */
+/*   Updated: 2016/01/28 15:22:02 by aperraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,10 +53,14 @@ static int				ft_last_line(char **text, int ret)
 	char	*str;
 
 	str = *text;
-
+	ft_putstr("ret = ");
+	ft_putnbr(ret);
+	ft_putchar('\n');
 	if (ret < BUFF_SIZE)
 	{
-		if ((!(ft_strchr(str, '\n')) && !str))
+		if (!str)
+			return (0);
+		if (str && (!(ft_strchr(str, '\n'))))
 		{
 			ft_memdel((void **)&str);
 			ft_putstr("SORTIE 1\n");
@@ -82,16 +86,18 @@ static int				ft_last_line(char **text, int ret)
 	}
 	else
 	{
-		ft_putstr("SORTIE 4\n");
-		return (1);
+		if ((int)ft_strlen(str) > 0)
+		{
+			ft_putstr("SORTIE 4\n");
+			return (1);
+		}
+		else
+		{
+			ft_putstr("SORTIE 5\n");
+			ft_memdel((void **)&str);
+			return (0);
+		}
 	}
-
-	//	if (ret == 0 && !(*text))
-	//	{
-	//		ft_memdel((void **)*&text);
-	//		return (0);
-	//	}
-	//	return (1);
 }
 
 int				get_next_line(const int fd, char **line)

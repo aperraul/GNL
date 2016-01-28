@@ -6,7 +6,7 @@
 /*   By: aperraul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/22 15:26:45 by aperraul          #+#    #+#             */
-/*   Updated: 2016/01/23 11:31:23 by aperraul         ###   ########.fr       */
+/*   Updated: 2016/01/28 14:33:17 by aperraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,14 +45,53 @@ static char		*ft_other_lines(char *str)
 	return (other_lines);
 }
 
+#include "debug.h"
+
 static int				ft_last_line(char **text, int ret)
 {
-	if (ret == 0 && !(*text))
+	int		i;
+	char	*str;
+
+	str = *text;
+
+	if (ret < BUFF_SIZE)
 	{
-		ft_memdel((void **)*&text);
-		return (0);
+		if ((!(ft_strchr(str, '\n')) && !str))
+		{
+			ft_memdel((void **)&str);
+			ft_putstr("SORTIE 1\n");
+			return (0);
+		}
+		else
+		{
+			i = 0;
+			while (str[i] && str[i] != '\n')
+				i++;
+			if (str[i] == '\0')
+			{
+				ft_memdel((void **)&str);
+				ft_putstr("SORTIE 2\n");
+				return (0);
+			}
+			else
+			{
+				ft_putstr("SORTIE 3\n");
+				return (1);
+			}
+		}
 	}
-	return (1);
+	else
+	{
+		ft_putstr("SORTIE 4\n");
+		return (1);
+	}
+
+	//	if (ret == 0 && !(*text))
+	//	{
+	//		ft_memdel((void **)*&text);
+	//		return (0);
+	//	}
+	//	return (1);
 }
 
 int				get_next_line(const int fd, char **line)

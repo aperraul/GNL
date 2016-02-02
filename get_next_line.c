@@ -6,7 +6,7 @@
 /*   By: aperraul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/22 15:26:45 by aperraul          #+#    #+#             */
-/*   Updated: 2016/01/28 15:22:02 by aperraul         ###   ########.fr       */
+/*   Updated: 2016/02/02 12:30:15 by aperraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,59 +45,15 @@ static char		*ft_other_lines(char *str)
 	return (other_lines);
 }
 
-#include "debug.h"
-
-static int				ft_last_line(char **text, int ret)
+static int		ft_last_line(char **text, int ret)
 {
-	int		i;
-	char	*str;
 
-	str = *text;
-	ft_putstr("ret = ");
-	ft_putnbr(ret);
-	ft_putchar('\n');
-	if (ret < BUFF_SIZE)
+	if (ret == 0 && !(*text))
 	{
-		if (!str)
+			ft_memdel((void **)*&text);
 			return (0);
-		if (str && (!(ft_strchr(str, '\n'))))
-		{
-			ft_memdel((void **)&str);
-			ft_putstr("SORTIE 1\n");
-			return (0);
-		}
-		else
-		{
-			i = 0;
-			while (str[i] && str[i] != '\n')
-				i++;
-			if (str[i] == '\0')
-			{
-				ft_memdel((void **)&str);
-				ft_putstr("SORTIE 2\n");
-				return (0);
-			}
-			else
-			{
-				ft_putstr("SORTIE 3\n");
-				return (1);
-			}
-		}
 	}
-	else
-	{
-		if ((int)ft_strlen(str) > 0)
-		{
-			ft_putstr("SORTIE 4\n");
-			return (1);
-		}
-		else
-		{
-			ft_putstr("SORTIE 5\n");
-			ft_memdel((void **)&str);
-			return (0);
-		}
-	}
+	return (1);
 }
 
 int				get_next_line(const int fd, char **line)
@@ -126,5 +82,8 @@ int				get_next_line(const int fd, char **line)
 	ft_memdel((void **)&buff);
 	*line = ft_get_line(text);
 	text = ft_other_lines(text);
-	return (ft_last_line(&text, ret) == 0 ? 0 : 1);
+	if ((int)ft_strlen(*line))
+		return (1);
+	else
+		return (ft_last_line(&text, ret) == 0 ? 0 : 1);
 }

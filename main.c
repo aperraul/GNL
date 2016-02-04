@@ -6,7 +6,7 @@
 /*   By: aperraul <marvin@42.fr>                    +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2016/01/22 16:02:49 by aperraul          #+#    #+#             */
-/*   Updated: 2016/01/22 16:09:30 by aperraul         ###   ########.fr       */
+/*   Updated: 2016/02/03 15:40:30 by aperraul         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,23 +17,27 @@
 
 int main(int argc, char **argv)
 {
+	int		k;
 	int		fd;
 	char	*line;
 	int		state;
 	int		temp;
 
-	state = 1;
-	if (argc == 2)
-		fd = open(argv[1], O_RDONLY);
-	else
-		fd = 0;
-	while (state > 0)
+	if (argc >= 2)
+	k = 1;
+	while (k < argc)
 	{
-		state = get_next_line(fd, &line); 
-		printf("state : %d\n", state);
-		printf("line : %s\n", line);
-		temp = state;// La boucle s	'execute en fonction du retour de gnl.
-		//state--;// la boucle for				ce 13 tours.
+		state = 1;
+		fd = open(argv[k], O_RDONLY);
+		while ((state = get_next_line(fd, &line) > 0))
+		{
+//			state = get_next_line(fd, &line); 
+			printf("state : %d\n", state);
+			printf("line : %s\n", line);
+			temp = state;// La boucle s	'execute en fonction du retour de gnl.
+			//state--;// la boucle for				ce 13 tours.
+		}
+		k++;
 	}
 	close(fd);
 	return (0);
